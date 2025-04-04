@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LayoutWrapper from "./LayoutWrapper";
 
 const roboto_mono = Roboto_Mono({
   subsets: ["latin"],
-  display: 'swap'
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Book Kart",
-  description: "This is E-Commerce platform wherer you can buy or cell your books",
+  description:
+    "This is E-Commerce platform wherer you can buy or cell your books",
 };
 
 export default function RootLayout({
@@ -19,10 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={roboto_mono.className}
-      >
-        {children}
+      <body className={roboto_mono.className}>
+        <LayoutWrapper>
+          <Header />
+          {children}
+          <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );
