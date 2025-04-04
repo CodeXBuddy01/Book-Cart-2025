@@ -335,7 +335,7 @@ const Header = () => {
               <ShoppingCart className="h-5 w-5 mr-2" />
             </Button>
             {user && (
-              <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs"></span>
+              <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs">5</span>
             )}
           </div>
         </Link>
