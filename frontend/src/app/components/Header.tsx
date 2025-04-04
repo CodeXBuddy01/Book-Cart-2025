@@ -8,7 +8,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { toggleLoginDialog } from "@/store/slice/userSlice";
 import { RootState } from "@/store/store";
 import {
@@ -185,11 +191,11 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full bg-white shadow-sm sticky top-0 z-50">
+    <header className="border-b bg-white sticky top-0 z-50">
       {/* Desktop header */}
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 gap-6">
+      <div className="container w-[80%] mx-auto hidden lg:flex items-center justify-between p-4">
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="flex items-center">
           <Image
             src="/images/web-logo.png"
             width={450}
@@ -200,8 +206,8 @@ const Header = () => {
         </Link>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-2xl">
-          <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 shadow-sm hover:shadow-md transition-all bg-gray-50">
+        <div className="flex flex-1 items-center justify-center max-w-2xl px-4">
+          <div className="flex relative w-full items-center border border-gray-300 rounded-full px-4 py-2 shadow-sm hover:shadow-md transition-all bg-gray-50">
             <Input
               type="text"
               placeholder="Book Name / Author / Subject Publisher"
@@ -260,7 +266,7 @@ const Header = () => {
                 Cart
               </Button>
               {user && (
-                <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs"></span>
+                <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs">5</span>
               )}
             </div>
           </Link>
@@ -272,7 +278,7 @@ const Header = () => {
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Menu className='h-6 w-6' />
+              <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
           <SheetContent>
@@ -280,21 +286,21 @@ const Header = () => {
               <SheetTitle className="sr-only"></SheetTitle>
             </SheetHeader>
             <div className="border-b p-4">
-              <Link href='/'>
-            <Image
-            src="/images/web-logo.png"
-            width={150}
-            height={40}
-            alt="mobile-logo"
-            className="h-10 w-auto"
-          />
-          </Link>
+              <Link href="/">
+                <Image
+                  src="/images/web-logo.png"
+                  width={150}
+                  height={40}
+                  alt="mobile-logo"
+                  className="h-10 w-auto"
+                />
+              </Link>
             </div>
             <MenuItems className="py-2" />
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="flex items-center">
           <Image
             src="/images/web-logo.png"
             width={450}
@@ -324,17 +330,16 @@ const Header = () => {
           </div>
         </div>
         <Link href="/checkout/cart">
-            <div className="relative">
-              <Button variant="ghost" className="relative">
-                <ShoppingCart className="h-5 w-5 mr-2" />
-              </Button>
-              {user && (
-                <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs"></span>
-              )}
-            </div>
-          </Link>
+          <div className="relative">
+            <Button variant="ghost" className="relative">
+              <ShoppingCart className="h-5 w-5 mr-2" />
+            </Button>
+            {user && (
+              <span className="absolute top-2 left-5 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full px-1 text-xs"></span>
+            )}
+          </div>
+        </Link>
       </div>
-
     </header>
   );
 };
