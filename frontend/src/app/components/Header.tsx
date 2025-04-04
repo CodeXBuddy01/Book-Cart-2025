@@ -281,7 +281,7 @@ const Header = () => {
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent side="left">
             <SheetHeader>
               <SheetTitle className="sr-only"></SheetTitle>
             </SheetHeader>
