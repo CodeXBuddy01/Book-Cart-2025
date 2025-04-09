@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const id = params.id;
 
@@ -18,120 +18,134 @@ const page = () => {
       "https://m.media-amazon.com/images/I/61PIpidSThL.jpg",
       "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1556036622i/44525305.jpg",
     ],
-    title: "The Alchemist",
-    category: "Reading Books (Novels)",
+    title: "The Lean Startup",
+    category: "Business & Startup Books",
     condition: "Excellent",
-    classType: "B.Com",
-    subject: "Fiction",
-    price: 300,
-    author: "Paulo Coelho",
-    edition: "25th Anniversary Edition",
-    description:
-      "A magical fable about following your dreams. The story of Santiago’s journey is packed with wisdom and inspiration.",
+    classType: "M.Tech",
+    subject: "Entrepreneurship",
+    price: 299,
     finalPrice: 250,
-    shippingCharge: 50,
-    paymentMode: "UPI",
-    paymentDetails: {
-      upiId: "example@upi",
-    },
-    createdAt: new Date("2024-01-01"),
+    edition: "2015",
+    author: "Eric Ries",
+    description: "The Lean Startup teaches a systematic, scientific approach for creating and managing successful startups in an age when companies must innovate more than ever.",
+    shippingCharge: 0,
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
     seller: {
-      name: "John Doe",
-      contact: "1234567890",
+      name: "Rakesh Kumar",
+      location: "Ghaziabad, UP",
+      isVerified: true,
     },
   };
 
-  const calculateDiscount = (price: number, finalPrice: number) => {
-    return price > finalPrice ? Math.round(((price - finalPrice) / price) * 100) : 0;
-  };
+  const discount = book.price > book.finalPrice
+    ? Math.round(((book.price - book.finalPrice) / book.price) * 100)
+    : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-20">
+    <div className="bg-gray-50 min-h-screen px-4 md:px-16 py-10">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:underline">Home</Link> /
+        <Link href="/" className="hover:underline">Home</Link> / 
         <Link href="/books" className="hover:underline ml-1">Books</Link> /
-        <span className="ml-1 text-black">{book.title}</span>
+        <span className="ml-1 text-black font-medium">{book.title}</span>
       </div>
 
-      {/* Layout */}
-      <div className="flex flex-col md:flex-row gap-10">
+      {/* Main Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white shadow-lg rounded-xl p-6">
         {/* Images */}
-        <div className="md:w-1/2 space-y-4">
-          <div className="relative w-full h-[450px] border rounded-xl overflow-hidden shadow">
+        <div>
+          <div className="relative w-full h-[420px] border rounded-lg overflow-hidden">
             <Image
               src={book.images[selectedImage]}
               alt={book.title}
               fill
               className="object-contain"
             />
-            {calculateDiscount(book.price, book.finalPrice) > 0 && (
-              <div className="absolute top-2 left-2 bg-red-600 text-white px-3 py-1 text-sm rounded">
-                {calculateDiscount(book.price, book.finalPrice)}% OFF
-              </div>
+            {discount > 0 && (
+              <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-md">
+                {discount}% OFF
+              </span>
             )}
           </div>
-          <div className="flex gap-3">
+
+          <div className="flex gap-2 mt-4">
             {book.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImage(i)}
-                className={`border rounded-xl w-20 h-20 overflow-hidden ${selectedImage === i ? "ring-2 ring-blue-500" : "border-gray-300"}`}
+                className={`w-16 h-16 border rounded-md overflow-hidden ${selectedImage === i ? 'ring-2 ring-blue-500' : 'border-gray-300'}`}
               >
-                <Image src={img} alt={`img-${i}`} width={80} height={80} className="object-contain w-full h-full" />
+                <Image src={img} alt={`thumb-${i}`} width={64} height={64} className="object-cover w-full h-full" />
               </button>
             ))}
           </div>
         </div>
 
-        {/* Info */}
-        <div className="md:w-1/2 space-y-4">
-          <h1 className="text-3xl font-bold text-gray-800">{book.title}</h1>
-          <p className="text-sm text-gray-500">{book.category}</p>
+        {/* Book Info */}
+        <div className="flex flex-col justify-between">
+          <div className="space-y-2">
+            <h1 className="text-2xl font-bold text-gray-900">{book.title}</h1>
+            <p className="text-sm text-gray-500">Posted {formatDistanceToNow(book.createdAt, { addSuffix: true })}</p>
 
-          {/* Pricing */}
-          <div className="text-2xl font-semibold text-green-600">
-            ₹{book.finalPrice}
-            {book.price > book.finalPrice && (
-              <span className="text-gray-400 text-lg line-through ml-3">₹{book.price}</span>
-            )}
-          </div>
+            <div className="text-green-600 text-2xl font-semibold mt-2">
+              ₹{book.finalPrice}
+              {discount > 0 && (
+                <span className="text-gray-400 line-through ml-3 text-lg">₹{book.price}</span>
+              )}
+            </div>
 
-          <div className="text-sm text-gray-600">
-            <p><strong>Author:</strong> {book.author}</p>
-            <p><strong>Edition:</strong> {book.edition}</p>
-            <p><strong>Condition:</strong> {book.condition}</p>
-            <p><strong>Class:</strong> {book.classType}</p>
-            <p><strong>Subject:</strong> {book.subject}</p>
-            <p><strong>Shipping:</strong> ₹{book.shippingCharge}</p>
-            <p><strong>Payment:</strong> {book.paymentMode} ({book.paymentDetails.upiId})</p>
-          </div>
+            <div className="mt-4 space-y-1 text-sm text-gray-700">
+              <p><strong>Author:</strong> {book.author}</p>
+              <p><strong>Edition:</strong> {book.edition}</p>
+              <p><strong>Condition:</strong> {book.condition}</p>
+              <p><strong>Category:</strong> {book.category}</p>
+              <p><strong>Course:</strong> {book.classType}</p>
+              <p><strong>Subject:</strong> {book.subject}</p>
+              <p><strong>Shipping:</strong> Free Delivery</p>
+            </div>
 
-          {/* Description */}
-          <div className="text-gray-700 leading-relaxed">
-            {book.description}
-          </div>
-
-          {/* Seller Info */}
-          <div className="bg-gray-100 rounded-xl p-4 text-sm">
-            <p><strong>Seller:</strong> {book.seller.name}</p>
-            <p><strong>Contact:</strong> {book.seller.contact}</p>
-            <p><strong>Posted:</strong> {formatDistanceToNow(book.createdAt, { addSuffix: true })}</p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-4 pt-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium">
-              Add to Cart
-            </button>
-            <button className="border border-gray-400 text-gray-700 hover:bg-gray-100 px-5 py-2 rounded-lg font-medium">
-              Wishlist
+            <button className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow">
+              🛒 Buy Now
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Description & Seller Info */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-bold mb-2">📘 Description</h2>
+          <p className="text-sm text-gray-700">{book.description}</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-bold mb-3">👤 Seller Info</h2>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center font-semibold text-blue-600">
+              {book.seller.name.charAt(0)}
+            </div>
+            <div>
+              <p className="font-medium">{book.seller.name}
+                {book.seller.isVerified && (
+                  <span className="text-green-600 text-xs bg-green-100 px-2 py-0.5 ml-2 rounded-full">✔ Verified</span>
+                )}
+              </p>
+              <p className="text-sm text-gray-500">{book.seller.location}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Community Section */}
+      <div className="mt-10 bg-blue-50 p-6 rounded-lg text-center shadow-sm">
+        <h3 className="text-xl font-semibold mb-2 text-blue-700">🌟 Our Community</h3>
+        <p className="text-sm text-gray-600">
+          We’re not just a book-selling site. We’re a community of students and readers who support each other with budget-friendly knowledge!
+        </p>
+        <p className="mt-2 text-xs text-gray-500">Ad ID: #67e508f5 • Posted {formatDistanceToNow(book.createdAt)} ago</p>
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
