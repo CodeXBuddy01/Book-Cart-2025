@@ -38,6 +38,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AuthPage from "./AuthPage";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -48,8 +49,8 @@ const Header = () => {
   );
   const user = {
     profilePicture: "",
-    name: "Rakesh Kumar",
-    email: "raka@gmail.com",
+    name: "",
+    email: "",
   };
   const userPlaceholder = "";
 
@@ -106,6 +107,11 @@ const Header = () => {
             onclick: handleLoginClick,
           },
         ]),
+        {
+          icon: <Lock className="h-5 w-5" />,
+          lable: "Login/Signup",
+          onclick: handleLoginClick,
+        },
     {
       icon: <User className="h-5 w-5" />,
       lable: "My Profile",
@@ -340,6 +346,7 @@ const Header = () => {
           </div>
         </Link>
       </div>
+      <AuthPage isLoginOpen={isLoginOpen} setIsLoginOpen={handleLoginClick} />
     </header>
   );
 };
